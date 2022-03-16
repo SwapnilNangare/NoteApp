@@ -6,9 +6,12 @@
     tools:context=".MainActivity">
 
     <SearchView
-        android:id="@+id/search"
+        android:id="@+id/searchView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/search_view_background"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search Note here">
 
     </SearchView>
 
@@ -16,7 +19,7 @@
         android:id="@+id/idRVNotes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search"
+        android:layout_below="@id/searchView"
         tools:listitem="@layout/list_item">
 
     </androidx.recyclerview.widget.RecyclerView>

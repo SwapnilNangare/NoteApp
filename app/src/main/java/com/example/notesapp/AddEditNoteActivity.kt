@@ -37,7 +37,8 @@ class AddEditNoteActivity : AppCompatActivity() {
             addUpdateBtn.setText("Update Note")
             noteTitleEdt.setText(noteTitle)
             noteTitleEdt.setText(noteDescription)
-        } else {
+        } else
+        {
             addUpdateBtn.setText("Save Note")
         }
 
