@@ -1,6 +1,7 @@
 package com.example.notesapp
 
 import android.content.Context
+import android.graphics.ColorSpace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,8 @@ class NoteAdapter(
     private val noteClickInterface: NoteClickInterface,
 ) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
 
-    private val allNotes = ArrayList<Note>()
+    private var allNotes = ArrayList<Note>()
+
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -31,7 +33,7 @@ class NoteAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.noteTV.setText(allNotes.get(position).noteTitle)
-       //for interface
+        //for interface
         holder.deleteIV.setOnClickListener {
             noteClickDeleteInterface.onDeleteIconClick(allNotes.get(position))
         }
@@ -40,6 +42,7 @@ class NoteAdapter(
             noteClickInterface.onNoteClick(allNotes.get(position))
         }
     }
+
 
     override fun getItemCount(): Int {
         return allNotes.size
@@ -57,6 +60,8 @@ class NoteAdapter(
         // change method to notify our adapter.
         notifyDataSetChanged()
     }
+
+
 }
 
 interface NoteClickDeleteInterface {

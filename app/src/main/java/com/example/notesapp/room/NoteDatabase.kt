@@ -28,28 +28,4 @@ abstract class NoteDatabase:RoomDatabase() {
             }
         }
     }
-
-//    companion object {
-//
-//        @Volatile
-//        private var INSTANCE: NoteDatabase? = null
-//
-//        fun getInstance(context: Context): NoteDatabase {
-//            synchronized(this) {
-//                var instance = INSTANCE
-//
-//                if (instance == null) {
-//                    instance = Room.databaseBuilder(
-//                        context.applicationContext,
-//                        NoteDatabase::class.java,
-//                        "note_database"
-//                    )
-//                        .fallbackToDestructiveMigration()
-//                        .build()
-//                    INSTANCE = instance
-//                }
-//                return instance
-//            }
-//        }
-//    }
 }
