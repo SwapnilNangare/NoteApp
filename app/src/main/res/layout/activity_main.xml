@@ -3,23 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.MainActivity">
 
-    <SearchView
-        android:id="@+id/searchView"
+    <EditText
+        android:id="@+id/edtSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/search_view_background"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search Note here">
+        android:drawableTint="@color/black"
+        android:hint="Search Here"
+        android:drawableStart="@drawable/search"
+        android:padding="10dp"
+        android:textSize="20sp"
+        app:iconifiedByDefault="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:queryHint="Search Here">
 
-    </SearchView>
+    </EditText>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/idRVNotes"
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/searchView"
+        android:layout_below="@id/edtSearch"
         tools:listitem="@layout/list_item">
 
     </androidx.recyclerview.widget.RecyclerView>
@@ -31,7 +44,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"

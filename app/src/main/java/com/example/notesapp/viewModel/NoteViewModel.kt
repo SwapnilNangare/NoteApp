@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesapp.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -14,6 +14,7 @@ class NoteViewModel(application: Application):AndroidViewModel(application) {
 
     val allNotes:LiveData<List<Note>>
     val repository: NoteRepository
+    lateinit var noteRepository: NoteRepository
 
     init {
         val dao = NoteDatabase.getDatabase(application).getNotesDao()
@@ -34,5 +35,9 @@ class NoteViewModel(application: Application):AndroidViewModel(application) {
     fun addNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(note)
     }
+
+
+
+
 
 }

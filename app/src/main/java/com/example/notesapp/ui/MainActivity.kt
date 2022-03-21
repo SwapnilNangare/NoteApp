@@ -1,16 +1,22 @@
-package com.example.notesapp
+package com.example.notesapp.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.SearchView
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.notesapp.databinding.ActivityMainBinding
+import com.example.notesapp.NoteAdapter
+import com.example.notesapp.NoteClickDeleteInterface
+import com.example.notesapp.NoteClickInterface
+import com.example.notesapp.R
 import com.example.notesapp.room.Note
+import com.example.notesapp.viewModel.NoteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity(), NoteClickDeleteInterface, NoteClickInterface {
@@ -18,30 +24,29 @@ class MainActivity : AppCompatActivity(), NoteClickDeleteInterface, NoteClickInt
 
     lateinit var addFAB: FloatingActionButton
     lateinit var viewModel: NoteViewModel
-    lateinit var binding: ActivityMainBinding
     lateinit var adapter: NoteAdapter
+    lateinit var edtSearch:EditText
 
-    //
-    lateinit var searchView: SearchView
-    lateinit var notesRv: RecyclerView
-    lateinit var addEditNoteActivity: AddEditNoteActivity
+    lateinit var recyclerview : RecyclerView
+    private var allNotes = ArrayList<Note>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        notesRv = findViewById(R.id.idRVNotes)
+        recyclerview  = findViewById(R.id.recyclerview)
         addFAB = findViewById(R.id.idFABAddNote)
+        edtSearch = findViewById(R.id.edtSearch)
 
 
-        notesRv.layoutManager = LinearLayoutManager(this)
-        val noteRVAdapter = NoteAdapter(this, this, this)
-        notesRv.adapter = noteRVAdapter
+        recyclerview .layoutManager = LinearLayoutManager(this)
+         adapter = NoteAdapter(this, this, this)
+        recyclerview .adapter = adapter
         viewModel = ViewModelProvider(this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(NoteViewModel::class.java)
         viewModel.allNotes.observe(this, Observer { list ->
             list?.let {
-                noteRVAdapter.updateList(it)
+                adapter.updateList(it)
             }
 
         })
@@ -51,8 +56,33 @@ class MainActivity : AppCompatActivity(), NoteClickDeleteInterface, NoteClickInt
             this.finish()
         }
 
+        edtSearch.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                filter(s.toString())
+            }
+
+        })
 
     }
+
+    fun filter(s : String){
+        val temp = ArrayList<Note>()
+        for(i in allNotes) {
+            if (i.noteTitle?.contains(s)) {
+                temp.add(i)
+            }
+        }
+        adapter.updateFilter(temp)
+    }
+
 
     override fun onDeleteIconClick(note: Note) {
         viewModel.deleteNote(note)
@@ -68,5 +98,7 @@ class MainActivity : AppCompatActivity(), NoteClickDeleteInterface, NoteClickInt
         startActivity(intent)
         this.finish()
     }
+
+
 
 }
