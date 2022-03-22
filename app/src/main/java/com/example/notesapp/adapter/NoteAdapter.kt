@@ -1,7 +1,6 @@
 package com.example.notesapp
 
 import android.content.Context
-import android.graphics.ColorSpace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,29 +10,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.room.Note
 
 class NoteAdapter(val context: Context, private val noteClickDeleteInterface: NoteClickDeleteInterface,
-    private val noteClickInterface: NoteClickInterface,
-) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
+    private val noteClickInterface: NoteClickInterface) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
 
     private var allNotes = ArrayList<Note>()
 
 
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val noteTV = itemView.findViewById<TextView>(R.id.idTvNotesTitle)
-        val deleteIV = itemView.findViewById<ImageView>(R.id.idIDelete)
+        val title: TextView = itemView.findViewById<TextView>(R.id.idTvNotesTitle)
+        val delete: ImageView = itemView.findViewById<ImageView>(R.id.idIDelete)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        // inflating our layout file for each item of recycler view.
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
         return ViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.noteTV.setText(allNotes.get(position).noteTitle)
+        holder.title.setText(allNotes.get(position).noteTitle)
         //for interface
-        holder.deleteIV.setOnClickListener {
+        holder.delete.setOnClickListener {
             noteClickDeleteInterface.onDeleteIconClick(allNotes.get(position))
         }
 

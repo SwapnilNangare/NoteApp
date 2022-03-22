@@ -22,26 +22,25 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class MainActivity : AppCompatActivity(), NoteClickDeleteInterface, NoteClickInterface {
 
 
-    lateinit var addFAB: FloatingActionButton
+    lateinit var addButton: FloatingActionButton
     lateinit var viewModel: NoteViewModel
     lateinit var adapter: NoteAdapter
-    lateinit var edtSearch:EditText
-
-    lateinit var recyclerview : RecyclerView
+    lateinit var searchView: EditText
+    lateinit var recyclerview: RecyclerView
     private var allNotes = ArrayList<Note>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        recyclerview  = findViewById(R.id.recyclerview)
-        addFAB = findViewById(R.id.idFABAddNote)
-        edtSearch = findViewById(R.id.edtSearch)
+        recyclerview = findViewById(R.id.recyclerview)
+        addButton = findViewById(R.id.idFABAddNote)
+        searchView = findViewById(R.id.edtSearch)
 
 
-        recyclerview .layoutManager = LinearLayoutManager(this)
-         adapter = NoteAdapter(this, this, this)
-        recyclerview .adapter = adapter
+        recyclerview.layoutManager = LinearLayoutManager(this)
+        adapter = NoteAdapter(this, this, this)
+        recyclerview.adapter = adapter
         viewModel = ViewModelProvider(this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(NoteViewModel::class.java)
         viewModel.allNotes.observe(this, Observer { list ->
@@ -50,13 +49,13 @@ class MainActivity : AppCompatActivity(), NoteClickDeleteInterface, NoteClickInt
             }
 
         })
-        addFAB.setOnClickListener {
+        addButton.setOnClickListener {
             val intent = Intent(this@MainActivity, AddEditNoteActivity::class.java)
             startActivity(intent)
             this.finish()
         }
 
-        edtSearch.addTextChangedListener(object : TextWatcher{
+        searchView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
@@ -72,17 +71,15 @@ class MainActivity : AppCompatActivity(), NoteClickDeleteInterface, NoteClickInt
         })
 
     }
-
-    fun filter(s : String){
+    fun filter(s: String) {
         val temp = ArrayList<Note>()
-        for(i in allNotes) {
+        for (i in allNotes) {
             if (i.noteTitle?.contains(s)) {
                 temp.add(i)
             }
         }
         adapter.updateFilter(temp)
     }
-
 
     override fun onDeleteIconClick(note: Note) {
         viewModel.deleteNote(note)
@@ -98,7 +95,6 @@ class MainActivity : AppCompatActivity(), NoteClickDeleteInterface, NoteClickInt
         startActivity(intent)
         this.finish()
     }
-
 
 
 }

@@ -13,8 +13,8 @@ import com.example.notesapp.viewModel.NoteViewModel
 
 class AddEditNoteActivity : AppCompatActivity() {
 
-    lateinit var noteTitleEdt: EditText
-    lateinit var noteDesEdt: EditText
+    lateinit var noteTitle: EditText
+    lateinit var noteDes: EditText
     lateinit var addUpdateBtn: Button
     lateinit var viewModel: NoteViewModel
     var noteId = -1
@@ -26,16 +26,14 @@ class AddEditNoteActivity : AppCompatActivity() {
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle("This new Activty")
-
-
+        supportActionBar!!.setTitle("This new Activity")
 
 
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
             NoteViewModel::class.java)
 
-        noteTitleEdt = findViewById(R.id.idEdtNoteTitle)
-        noteDesEdt = findViewById(R.id.idEdtNoteDesc)
+        noteTitle = findViewById(R.id.idEdtNoteTitle)
+        noteDes = findViewById(R.id.idEdtNoteDesc)
         addUpdateBtn = findViewById(R.id.idBtnAddUpdate)
 
         val noteType = intent.getStringExtra("noteType")
@@ -46,8 +44,8 @@ class AddEditNoteActivity : AppCompatActivity() {
             noteId = intent.getIntExtra("noteId", -1)
 
             addUpdateBtn.setText("Update Note")
-            noteTitleEdt.setText(noteTitle)
-            noteTitleEdt.setText(noteDescription)
+            this.noteTitle.setText(noteTitle)
+            this.noteTitle.setText(noteDescription)
         } else
         {
             addUpdateBtn.setText("Save Note")
@@ -58,8 +56,8 @@ class AddEditNoteActivity : AppCompatActivity() {
         addUpdateBtn.setOnClickListener {
             // on below line we are getting
             // title and desc from edit text.
-            val noteTitle = noteTitleEdt.text.toString()
-            val noteDescription = noteDesEdt.text.toString()
+            val noteTitle = noteTitle.text.toString()
+            val noteDescription = noteDes.text.toString()
 
             if (noteType.equals("Edit")) {
                 if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
