@@ -10,22 +10,21 @@
         android:id="@+id/idEdtNoteTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/idBtnAddUpdate"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
         android:hint="Enter Note Title"
         android:textColor="@color/black"
         android:textColorHint="@color/black" />
 
     <EditText
         android:id="@+id/idEdtNoteDesc"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/idBtnAddUpdate"
+        android:layout_width="385dp"
+        android:layout_height="608dp"
         android:layout_below="@id/idEdtNoteTitle"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="start|top"
@@ -37,14 +36,16 @@
 
     <Button
         android:id="@+id/idBtnAddUpdate"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
+        android:backgroundTint="#AA2828"
         android:layout_marginBottom="20dp"
         android:text="Button"
+
         android:textAllCaps="false"
         android:textColor="@color/white" />
 </RelativeLayout>
