@@ -17,8 +17,7 @@ import com.example.notesapp.room.Note
 import com.example.notesapp.viewModel.NoteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity(),
-    NoteAdapter.NoteClickInterface, Listener {
+class MainActivity : AppCompatActivity(), Listener {
 
 
     lateinit var addButton: FloatingActionButton
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity(),
 
 
         recyclerview.layoutManager = LinearLayoutManager(this)
-        adapter = NoteAdapter(allNotes, this, this, this)
+        adapter = NoteAdapter(allNotes, this, this)
         recyclerview.adapter = adapter
         viewModel = ViewModelProvider(this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(NoteViewModel::class.java)
@@ -82,16 +81,6 @@ class MainActivity : AppCompatActivity(),
         adapter.updateFilter(temp)
     }
 
-    override fun onNoteClick(note: Note) {
-        val intent = Intent(this@MainActivity, AddEditNoteActivity::class.java)
-        intent.putExtra("noteType", "Edit")
-        intent.putExtra("noteTitle", note.noteTitle)
-        intent.putExtra("noteDescription", note.noteDescription)
-        intent.putExtra("noteId", note.id)
-        startActivity(intent)
-        this.finish()
-    }
-
 
     override fun onLongClick(notes: ArrayList<Note>) {
         //viewModel.deleteMul(notes)
@@ -100,6 +89,16 @@ class MainActivity : AppCompatActivity(),
         }
         Toast.makeText(this, "Deleted", Toast.LENGTH_LONG).show()
 
+    }
+
+    override fun onClick(note: Note) {
+        val intent = Intent(this@MainActivity, AddEditNoteActivity::class.java)
+        intent.putExtra("noteType", "Edit")
+        intent.putExtra("noteTitle", note.noteTitle)
+        intent.putExtra("noteDescription", note.noteDescription)
+        intent.putExtra("noteId", note.id)
+        startActivity(intent)
+        this.finish()
     }
 
 

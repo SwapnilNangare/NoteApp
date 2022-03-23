@@ -5,4 +5,5 @@ import com.example.notesapp.room.Note
 interface Listener {
 
     fun onLongClick(notes : ArrayList<Note>)
+    fun onClick(note: Note)
 }

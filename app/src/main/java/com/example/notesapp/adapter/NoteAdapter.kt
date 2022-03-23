@@ -13,12 +13,10 @@ import com.example.notesapp.room.Note
 import com.example.notesapp.ui.Listener
 import com.example.notesapp.ui.MainActivity
 
-class NoteAdapter(
-    var notes: ArrayList<Note>, val listener: Listener, val activity: AppCompatActivity,
-    private val noteClickInterface: NoteClickInterface,
+class NoteAdapter(var notes: ArrayList<Note>, val listener: Listener, val activity: AppCompatActivity
 ) : RecyclerView.Adapter<NoteAdapter.ViewHolder>(),androidx.appcompat.view.ActionMode.Callback {
 
-    private var allNotes = ArrayList<Note>() // selectedItems
+    private var allNotes = ArrayList<Note>()
     private var selectedNotes = ArrayList<Note>()
     private var multiSelect: Boolean = false
 
@@ -49,7 +47,7 @@ class NoteAdapter(
             }
             else{
                 multiSelect = false
-                noteClickInterface.onNoteClick(allNotes.get(position))
+                listener.onClick(allNotes.get(position))
             }
 
         }
@@ -108,9 +106,7 @@ class NoteAdapter(
 
 
 
-    interface NoteClickInterface {
-        fun onNoteClick(note: Note)
-    }
+
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
         val inflater : MenuInflater = mode?.menuInflater!!
