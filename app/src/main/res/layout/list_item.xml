@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="@color/teal_700"
+    android:id="@+id/noteLayout"
+    android:background="@color/purple_200"
+    app:cardBackgroundColor="@color/purple_200"
     app:cardCornerRadius="5dp"
     app:cardElevation="4dp">
 
@@ -20,28 +22,16 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
+            android:background="@color/purple_200"
             android:layout_marginRight="11dp"
             android:layout_marginBottom="4dp"
-            android:layout_toLeftOf="@id/idIDelete"
             android:padding="4dp"
             android:text="Note Title"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="18dp">
 
         </TextView>
 
-        <ImageView
-            android:id="@+id/idIDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/delete"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="5dp"
-            android:padding="4dp"
-            android:layout_alignParentRight="true">
-
-        </ImageView>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

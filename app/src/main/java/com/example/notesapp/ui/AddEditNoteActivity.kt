@@ -26,8 +26,7 @@ class AddEditNoteActivity : AppCompatActivity() {
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle("This new Activity")
-
+        supportActionBar!!.setTitle("Add Notes")
 
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
             NoteViewModel::class.java)
@@ -46,8 +45,8 @@ class AddEditNoteActivity : AppCompatActivity() {
             addUpdateBtn.setText("Update Note")
             this.noteTitle.setText(noteTitle)
             this.noteTitle.setText(noteDescription)
-        } else
-        {
+        }
+        else {
             addUpdateBtn.setText("Save Note")
         }
 

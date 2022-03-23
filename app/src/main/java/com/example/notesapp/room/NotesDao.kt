@@ -20,5 +20,4 @@ interface NotesDao {
     fun getAllNotes(): LiveData<List<Note>>
 
 
-
 }

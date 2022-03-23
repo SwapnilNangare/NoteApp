@@ -12,14 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.NoteAdapter
-import com.example.notesapp.NoteClickDeleteInterface
-import com.example.notesapp.NoteClickInterface
 import com.example.notesapp.R
 import com.example.notesapp.room.Note
 import com.example.notesapp.viewModel.NoteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity(), NoteClickDeleteInterface, NoteClickInterface {
+class MainActivity : AppCompatActivity(),
+    NoteAdapter.NoteClickInterface, Listener {
 
 
     lateinit var addButton: FloatingActionButton
@@ -33,13 +32,14 @@ class MainActivity : AppCompatActivity(), NoteClickDeleteInterface, NoteClickInt
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         recyclerview = findViewById(R.id.recyclerview)
         addButton = findViewById(R.id.idFABAddNote)
         searchView = findViewById(R.id.edtSearch)
 
 
         recyclerview.layoutManager = LinearLayoutManager(this)
-        adapter = NoteAdapter(this, this, this)
+        adapter = NoteAdapter(allNotes, this, this, this)
         recyclerview.adapter = adapter
         viewModel = ViewModelProvider(this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(NoteViewModel::class.java)
@@ -71,19 +71,15 @@ class MainActivity : AppCompatActivity(), NoteClickDeleteInterface, NoteClickInt
         })
 
     }
+
     fun filter(s: String) {
         val temp = ArrayList<Note>()
         for (i in allNotes) {
-            if (i.noteTitle?.contains(s)) {
+            if (i.noteTitle?.contains(s)!! or i.noteDescription?.contains(s)!!) {
                 temp.add(i)
             }
         }
         adapter.updateFilter(temp)
-    }
-
-    override fun onDeleteIconClick(note: Note) {
-        viewModel.deleteNote(note)
-        Toast.makeText(this, "${note.noteTitle} Deleted", Toast.LENGTH_LONG).show()
     }
 
     override fun onNoteClick(note: Note) {
@@ -94,6 +90,16 @@ class MainActivity : AppCompatActivity(), NoteClickDeleteInterface, NoteClickInt
         intent.putExtra("noteId", note.id)
         startActivity(intent)
         this.finish()
+    }
+
+
+    override fun onLongClick(notes: ArrayList<Note>) {
+        //viewModel.deleteMul(notes)
+        for (i in notes) {
+            viewModel.deleteNote(i)
+        }
+        Toast.makeText(this, "Deleted", Toast.LENGTH_LONG).show()
+
     }
 
 
