@@ -10,7 +10,6 @@
         android:id="@+id/edtSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/search_view_background"
         android:drawableTint="@color/black"
@@ -31,6 +30,7 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:backgroundTint="@color/black"
         android:layout_below="@id/edtSearch"
         tools:listitem="@layout/list_item">
 

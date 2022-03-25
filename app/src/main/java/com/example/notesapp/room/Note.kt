@@ -10,8 +10,9 @@ class Note(
     val noteTitle: String,
     @ColumnInfo(name = "description")
     val noteDescription: String,
+    @PrimaryKey(autoGenerate = true)
+    var id:Int =0
 )
 {
-    @PrimaryKey(autoGenerate = true)
-    var id = 0
+
 }

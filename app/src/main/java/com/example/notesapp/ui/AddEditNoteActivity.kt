@@ -13,70 +13,64 @@ import com.example.notesapp.viewModel.NoteViewModel
 
 class AddEditNoteActivity : AppCompatActivity() {
 
-    lateinit var noteTitle: EditText
-    lateinit var noteDes: EditText
-    lateinit var addUpdateBtn: Button
-    lateinit var viewModel: NoteViewModel
-    var noteId = -1
+    lateinit var noteTitleEdt: EditText
+    lateinit var noteEdt: EditText
+    lateinit var saveBtn: Button
+
+    lateinit var viewModal: NoteViewModel
+    var noteID = -1;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_note)
 
+        viewModal = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+        ).get(NoteViewModel::class.java)
 
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setTitle("Add Notes")
-
-        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
-            NoteViewModel::class.java)
-
-        noteTitle = findViewById(R.id.idEdtNoteTitle)
-        noteDes = findViewById(R.id.idEdtNoteDesc)
-        addUpdateBtn = findViewById(R.id.idBtnAddUpdate)
+        noteTitleEdt = findViewById(R.id.idEdtNoteTitle)
+        noteEdt = findViewById(R.id.idEdtNoteDesc)
+        saveBtn = findViewById(R.id.idBtnAddUpdate)
 
         val noteType = intent.getStringExtra("noteType")
         if (noteType.equals("Edit")) {
-
             val noteTitle = intent.getStringExtra("noteTitle")
             val noteDescription = intent.getStringExtra("noteDescription")
-            noteId = intent.getIntExtra("noteId", -1)
-
-            addUpdateBtn.setText("Update Note")
-            this.noteTitle.setText(noteTitle)
-            this.noteTitle.setText(noteDescription)
-        }
-        else {
-            addUpdateBtn.setText("Save Note")
+            noteID = intent.getIntExtra("noteId", -1)
+            saveBtn.setText("Update Note")
+            noteTitleEdt.setText(noteTitle)
+            noteEdt.setText(noteDescription)
+        } else {
+            saveBtn.setText("Save Note")
         }
 
-        // on below line we are adding
-        // click listener to our save button.
-        addUpdateBtn.setOnClickListener {
-            // on below line we are getting
-            // title and desc from edit text.
-            val noteTitle = noteTitle.text.toString()
-            val noteDescription = noteDes.text.toString()
+
+        saveBtn.setOnClickListener {
+
+            val noteTitle = noteTitleEdt.text.toString()
+            val noteDescription = noteEdt.text.toString()
 
             if (noteType.equals("Edit")) {
                 if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
                     val updatedNote = Note(noteTitle, noteDescription)
-                    updatedNote.id = noteId
-                    viewModel.updateNote(updatedNote)
+                    updatedNote.id = noteID
+                    viewModal.updateNote(updatedNote)
                     Toast.makeText(this, "Note Updated..", Toast.LENGTH_LONG).show()
                 }
             } else {
                 if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
-                    viewModel.addNote(Note(noteTitle, noteDescription))
+                    viewModal.addNote(Note(noteTitle, noteDescription))
                     Toast.makeText(this, "$noteTitle Added", Toast.LENGTH_LONG).show()
                 }
             }
-            // opening the new activity on below line
             startActivity(Intent(applicationContext, MainActivity::class.java))
             this.finish()
         }
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setTitle("Add Notes")
     }
-
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()

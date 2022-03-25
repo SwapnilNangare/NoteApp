@@ -1,17 +1,13 @@
 package com.example.notesapp
 
-import android.util.Log
 import android.view.*
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.room.Note
 import com.example.notesapp.ui.Listener
-import com.example.notesapp.ui.MainActivity
 
 class NoteAdapter(var notes: ArrayList<Note>, val listener: Listener, val activity: AppCompatActivity
 ) : RecyclerView.Adapter<NoteAdapter.ViewHolder>(),androidx.appcompat.view.ActionMode.Callback {
@@ -26,19 +22,14 @@ class NoteAdapter(var notes: ArrayList<Note>, val listener: Listener, val activi
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
         return ViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val currentSelected = allNotes[position]
-
-
         holder.title.text = allNotes.get(position).noteTitle
-        //for interface
-
 
         holder.itemView.setOnClickListener{
 
@@ -73,6 +64,9 @@ class NoteAdapter(var notes: ArrayList<Note>, val listener: Listener, val activi
             }
         }
     }
+    override fun getItemCount(): Int {
+        return allNotes.size
+    }
 
     private fun selectItem(holder: NoteAdapter.ViewHolder, note: Note) {
         if(selectedNotes.contains(note)){
@@ -87,9 +81,6 @@ class NoteAdapter(var notes: ArrayList<Note>, val listener: Listener, val activi
 
     }
 
-    override fun getItemCount(): Int {
-        return allNotes.size
-    }
     fun updateFilter(note: ArrayList<Note>) {
         allNotes = note
         notifyDataSetChanged()
@@ -102,9 +93,6 @@ class NoteAdapter(var notes: ArrayList<Note>, val listener: Listener, val activi
         allNotes.addAll(newList)
         notifyDataSetChanged()
     }
-
-
-
 
 
 

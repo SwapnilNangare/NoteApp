@@ -13,9 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.NoteAdapter
 import com.example.notesapp.R
+import com.example.notesapp.databinding.ActivityMainBinding
 import com.example.notesapp.room.Note
 import com.example.notesapp.viewModel.NoteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.database.DatabaseReference
+import kotlinx.android.synthetic.main.activity_add_edit_note.*
 
 class MainActivity : AppCompatActivity(), Listener {
 
@@ -35,7 +38,6 @@ class MainActivity : AppCompatActivity(), Listener {
         recyclerview = findViewById(R.id.recyclerview)
         addButton = findViewById(R.id.idFABAddNote)
         searchView = findViewById(R.id.edtSearch)
-
 
         recyclerview.layoutManager = LinearLayoutManager(this)
         adapter = NoteAdapter(allNotes, this, this)
@@ -83,7 +85,7 @@ class MainActivity : AppCompatActivity(), Listener {
 
 
     override fun onLongClick(notes: ArrayList<Note>) {
-        //viewModel.deleteMul(notes)
+
         for (i in notes) {
             viewModel.deleteNote(i)
         }

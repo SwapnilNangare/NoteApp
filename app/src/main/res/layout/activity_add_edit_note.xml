@@ -28,7 +28,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="start|top"
-        android:hint="Enter your Note Details"
+        android:hint="Note Details"
         android:inputType="textMultiLine"
         android:singleLine="false"
         android:textColor="@color/black"
@@ -42,8 +42,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:backgroundTint="#AA2828"
         android:layout_marginBottom="20dp"
+        android:backgroundTint="#AA2828"
         android:text="Button"
 
         android:textAllCaps="false"
