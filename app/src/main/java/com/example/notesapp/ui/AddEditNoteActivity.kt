@@ -6,10 +6,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.notesapp.R
 import com.example.notesapp.room.Note
 import com.example.notesapp.viewModel.NoteViewModel
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class AddEditNoteActivity : AppCompatActivity() {
 
@@ -20,18 +23,25 @@ class AddEditNoteActivity : AppCompatActivity() {
     lateinit var viewModal: NoteViewModel
     var noteID = -1;
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_note)
 
-        viewModal = ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        ).get(NoteViewModel::class.java)
-
         noteTitleEdt = findViewById(R.id.idEdtNoteTitle)
         noteEdt = findViewById(R.id.idEdtNoteDesc)
         saveBtn = findViewById(R.id.idBtnAddUpdate)
+
+        saveBtn.setOnClickListener{
+            saveHero()
+        }
+
+
+        viewModal = ViewModelProvider(this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+        ).get(NoteViewModel::class.java)
+
 
         val noteType = intent.getStringExtra("noteType")
         if (noteType.equals("Edit")) {
@@ -57,6 +67,8 @@ class AddEditNoteActivity : AppCompatActivity() {
                     updatedNote.id = noteID
                     viewModal.updateNote(updatedNote)
                     Toast.makeText(this, "Note Updated..", Toast.LENGTH_LONG).show()
+
+
                 }
             } else {
                 if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
@@ -71,6 +83,26 @@ class AddEditNoteActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setTitle("Add Notes")
     }
+
+    private fun saveHero() {
+       val title=noteTitleEdt.text.toString().trim()
+        val desc=noteEdt.text.toString().trim()
+
+        if(title.isNotEmpty() && desc.isNotEmpty())
+        {
+            Toast.makeText(this,"error in firebase",Toast.LENGTH_SHORT).show()
+            return
+        }
+        val ref= FirebaseDatabase.getInstance().getReference("heroes")
+        val heroId= ref.push().key
+        val hero=Note(noteID.toString(),title,desc.toInt())
+        ref.child(noteID.toString()).setValue(hero).addOnCompleteListener{
+            Toast.makeText(applicationContext,"data save successfully",Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()

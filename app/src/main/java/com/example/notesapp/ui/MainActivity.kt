@@ -13,12 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.NoteAdapter
 import com.example.notesapp.R
-import com.example.notesapp.databinding.ActivityMainBinding
 import com.example.notesapp.room.Note
 import com.example.notesapp.viewModel.NoteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.database.DatabaseReference
-import kotlinx.android.synthetic.main.activity_add_edit_note.*
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity(), Listener {
 
@@ -28,7 +26,7 @@ class MainActivity : AppCompatActivity(), Listener {
     lateinit var adapter: NoteAdapter
     lateinit var searchView: EditText
     lateinit var recyclerview: RecyclerView
-    private var allNotes = ArrayList<Note>()
+    private var allNotes = listOf<Note>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +38,7 @@ class MainActivity : AppCompatActivity(), Listener {
         searchView = findViewById(R.id.edtSearch)
 
         recyclerview.layoutManager = LinearLayoutManager(this)
-        adapter = NoteAdapter(allNotes, this, this)
+        adapter = NoteAdapter(this, this)
         recyclerview.adapter = adapter
         viewModel = ViewModelProvider(this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(NoteViewModel::class.java)
@@ -54,6 +52,7 @@ class MainActivity : AppCompatActivity(), Listener {
             val intent = Intent(this@MainActivity, AddEditNoteActivity::class.java)
             startActivity(intent)
             this.finish()
+
         }
 
         searchView.addTextChangedListener(object : TextWatcher {
@@ -74,20 +73,26 @@ class MainActivity : AppCompatActivity(), Listener {
     }
 
     fun filter(s: String) {
-        val temp = ArrayList<Note>()
+        val all = ArrayList<Note>()
+        viewModel.allNotes.observe(this) {
+            allNotes = it
+        }
         for (i in allNotes) {
             if (i.noteTitle?.contains(s)!! or i.noteDescription?.contains(s)!!) {
-                temp.add(i)
+                all.add(i)
             }
         }
-        adapter.updateFilter(temp)
+        adapter.updateFilter(all)
     }
 
 
     override fun onLongClick(notes: ArrayList<Note>) {
+        val database = FirebaseDatabase.getInstance().reference
 
         for (i in notes) {
             viewModel.deleteNote(i)
+
+            database.child("notes").child(i.id.toString()).removeValue()
         }
         Toast.makeText(this, "Deleted", Toast.LENGTH_LONG).show()
 
