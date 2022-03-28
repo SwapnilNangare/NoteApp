@@ -47,7 +47,7 @@ android {
 }
 
 dependencies {
-    //fireBase
+    //firebase
     implementation 'com.google.firebase:firebase-database:20.0.4'
     implementation 'androidx.databinding:databinding-runtime:7.1.1'
 
