@@ -3,7 +3,6 @@ package com.example.notesapp.viewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.notesapp.firebase.NoteFireBase
 import com.example.notesapp.room.Note
@@ -17,22 +16,15 @@ import kotlinx.coroutines.launch
 class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
 
-    val shouldCloseLiveData = MutableLiveData<Void?>()
-    val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
-
+    private val dataBaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
     val allNotes: LiveData<List<Note>>
-    val repository: NoteRepository
-
-    // FireBase
-
+    private val repository: NoteRepository
 
     init {
         val dao = NoteDatabase.getDatabase(application).getNotesDao()
         repository = NoteRepository(dao)
         allNotes = repository.allNotes
-
-
-    }
+        }
 
     fun deleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         repository.delete(note)
@@ -46,7 +38,6 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     fun updateNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         repository.update(note)
 
-        //firebase for update
 
 
 
@@ -57,7 +48,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
         //firebase
 
-        databaseReference.child("notes").push().also {
+        dataBaseReference.child("notes").push().also {
             val id = it.key
             it.setValue(NoteFireBase(id.toString(), note.noteTitle, note.noteDescription))
         }
