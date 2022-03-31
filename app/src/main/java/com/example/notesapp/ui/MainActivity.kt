@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity(), Listener {
             viewModel.deleteNote(i)
 
             database.child("notes").child(i.id.toString()).removeValue()
+
         }
         Toast.makeText(this, "Deleted", Toast.LENGTH_LONG).show()
 

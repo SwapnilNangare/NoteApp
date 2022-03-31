@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
+    private lateinit var database: DatabaseReference
 
     private val dataBaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
     val allNotes: LiveData<List<Note>>
@@ -24,33 +25,62 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         val dao = NoteDatabase.getDatabase(application).getNotesDao()
         repository = NoteRepository(dao)
         allNotes = repository.allNotes
-        }
+
+
+    }
 
     fun deleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         repository.delete(note)
+       //firebase deleteion
+        deleteFromFireBase(note)
 
-        //firebase deletion
-        val database = FirebaseDatabase.getInstance().reference
-        database.child("notes").child(note.id.toString()).removeValue()
+
+    }
+
+     private fun deleteFromFireBase(note: Note) {
+        database=FirebaseDatabase.getInstance().getReference("NoteFireBase")
+        database.child(note.noteTitle).removeValue().addOnSuccessListener {
+
+        }.addOnFailureListener{
+
+        }
 
     }
 
     fun updateNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         repository.update(note)
 
-
+        updateFirebase(note)
 
 
     }
+
+    private fun updateFirebase(note: Note) {
+
+        database = FirebaseDatabase.getInstance().getReference("NoteFireBase")
+        val user = mapOf(
+            "title" to note.noteTitle,
+            "description" to note.noteDescription,
+            "id" to note.id.toString()
+        )
+        database.child(note.noteTitle).updateChildren(user).addOnSuccessListener {
+
+
+        }.addOnFailureListener {
+
+        }
+
+    }
+
 
     fun addNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(note)
 
         //firebase
 
-        dataBaseReference.child("notes").push().also {
+        dataBaseReference.child("NoteFireBase").push().also {
             val id = it.key
-            it.setValue(NoteFireBase(id.toString(), note.noteTitle, note.noteDescription))
+            it.setValue(NoteFireBase(note.id.toString(), note.noteTitle, note.noteDescription))
         }
 
 
