@@ -25,8 +25,6 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         val dao = NoteDatabase.getDatabase(application).getNotesDao()
         repository = NoteRepository(dao)
         allNotes = repository.allNotes
-
-
     }
 
     fun deleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
@@ -50,12 +48,11 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     fun updateNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         repository.update(note)
-     //firebase update
+        //firebase update
         updateFirebase(note)
 
 
     }
-
     private fun updateFirebase(note: Note) {
 
         database = FirebaseDatabase.getInstance().getReference("NoteFireBase")

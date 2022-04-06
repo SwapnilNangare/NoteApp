@@ -6,12 +6,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.notesapp.R
 import com.example.notesapp.room.Note
 import com.example.notesapp.viewModel.NoteViewModel
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class AddEditNoteActivity : AppCompatActivity() {
@@ -34,7 +32,7 @@ class AddEditNoteActivity : AppCompatActivity() {
         saveBtn = findViewById(R.id.idBtnAddUpdate)
 
         saveBtn.setOnClickListener{
-            saveHero()
+            saveNote()
         }
 
 
@@ -84,7 +82,7 @@ class AddEditNoteActivity : AppCompatActivity() {
         supportActionBar!!.setTitle("Add Notes")
     }
 
-    private fun saveHero() {
+    private fun saveNote() {
        val title=noteTitleEdt.text.toString().trim()
         val desc=noteEdt.text.toString().trim()
 
