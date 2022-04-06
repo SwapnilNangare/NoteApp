@@ -31,17 +31,18 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     fun deleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         repository.delete(note)
-       //firebase deleteion
+
+        //firebase delete
         deleteFromFireBase(note)
 
 
     }
 
-     private fun deleteFromFireBase(note: Note) {
-        database=FirebaseDatabase.getInstance().getReference("NoteFireBase")
+    private fun deleteFromFireBase(note: Note) {
+        database = FirebaseDatabase.getInstance().getReference("NoteFireBase")
         database.child(note.noteTitle).removeValue().addOnSuccessListener {
 
-        }.addOnFailureListener{
+        }.addOnFailureListener {
 
         }
 
@@ -49,7 +50,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     fun updateNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         repository.update(note)
-
+     //firebase update
         updateFirebase(note)
 
 
@@ -76,7 +77,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     fun addNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(note)
 
-        //firebase
+        // Add To Firebase
 
         dataBaseReference.child("NoteFireBase").push().also {
             val id = it.key

@@ -9,13 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.room.Note
 import com.example.notesapp.ui.Listener
 
-class NoteAdapter(
-    val listener: Listener, val activity: AppCompatActivity
+class NoteAdapter(val listener: Listener, val activity: AppCompatActivity
 ) : RecyclerView.Adapter<NoteAdapter.ViewHolder>(),androidx.appcompat.view.ActionMode.Callback {
 
     private var allNotes = ArrayList<Note>()
-    private var selectedNotes = ArrayList<Note>()
     private var multiSelect: Boolean = false
+    private var selectedNotes = ArrayList<Note>()
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
