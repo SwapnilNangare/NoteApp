@@ -88,11 +88,11 @@ class AddEditNoteActivity : AppCompatActivity() {
 
         if(title.isNotEmpty() && desc.isNotEmpty())
         {
-            Toast.makeText(this,"error in firebase",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Add notes",Toast.LENGTH_SHORT).show()
             return
         }
-        val ref= FirebaseDatabase.getInstance().getReference("heroes")
-        val heroId= ref.push().key
+        val ref= FirebaseDatabase.getInstance().getReference("Note")
+        ref.push().key
         val hero=Note(noteID.toString(),title,desc.toInt())
         ref.child(noteID.toString()).setValue(hero).addOnCompleteListener{
             Toast.makeText(applicationContext,"data save successfully",Toast.LENGTH_SHORT).show()
