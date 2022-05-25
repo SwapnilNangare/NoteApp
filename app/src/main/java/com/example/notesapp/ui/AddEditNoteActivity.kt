@@ -22,7 +22,6 @@ class AddEditNoteActivity : AppCompatActivity() {
     var noteID = -1;
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_note)
@@ -31,7 +30,7 @@ class AddEditNoteActivity : AppCompatActivity() {
         noteEdt = findViewById(R.id.idEdtNoteDesc)
         saveBtn = findViewById(R.id.idBtnAddUpdate)
 
-        saveBtn.setOnClickListener{
+        saveBtn.setOnClickListener {
             saveNote()
         }
 
@@ -83,19 +82,18 @@ class AddEditNoteActivity : AppCompatActivity() {
     }
 
     private fun saveNote() {
-       val title=noteTitleEdt.text.toString().trim()
-        val desc=noteEdt.text.toString().trim()
+        val title = noteTitleEdt.text.toString().trim()
+        val desc = noteEdt.text.toString().trim()
 
-        if(title.isNotEmpty() && desc.isNotEmpty())
-        {
-            Toast.makeText(this,"Add notes",Toast.LENGTH_SHORT).show()
+        if (title.isNotEmpty() && desc.isNotEmpty()) {
+            Toast.makeText(this, "Add notes", Toast.LENGTH_SHORT).show()
             return
         }
-        val ref= FirebaseDatabase.getInstance().getReference("Note")
+        val ref = FirebaseDatabase.getInstance().getReference("Note")
         ref.push().key
-        val hero=Note(noteID.toString(),title,desc.toInt())
-        ref.child(noteID.toString()).setValue(hero).addOnCompleteListener{
-            Toast.makeText(applicationContext,"data save successfully",Toast.LENGTH_SHORT).show()
+        val hero = Note(noteID.toString(), title, desc.toInt())
+        ref.child(noteID.toString()).setValue(hero).addOnCompleteListener {
+            Toast.makeText(applicationContext, "data save successfully", Toast.LENGTH_SHORT).show()
         }
 
     }

@@ -1,6 +1,8 @@
 package com.example.notesapp.viewModel
 
 import android.app.Application
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -37,12 +39,16 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun deleteFromFireBase(note: Note) {
-        database = FirebaseDatabase.getInstance().getReference("NoteFireBase")
+        database = FirebaseDatabase.getInstance().getReference("Note")
         database.child(note.noteTitle).removeValue().addOnSuccessListener {
 
-        }.addOnFailureListener {
+            Log.d(TAG,"Deleted to firebase")
 
+        }.addOnFailureListener {
+            Log.d(TAG,"Note to firebase")
         }
+
+
 
     }
 
@@ -55,11 +61,11 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     }
     private fun updateFirebase(note: Note) {
 
-        database = FirebaseDatabase.getInstance().getReference("NoteFireBase")
+        database = FirebaseDatabase.getInstance().getReference("Note")
         val user = mapOf(
             "title" to note.noteTitle,
             "description" to note.noteDescription,
-            "id" to note.id.toString()
+            "id" to note.id
         )
         database.child(note.noteTitle).updateChildren(user).addOnSuccessListener {
 
@@ -76,9 +82,9 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
         // Add To Firebase
 
-        dataBaseReference.child("NoteFireBase").push().also {
-            val id = it.key
-            it.setValue(NoteFireBase(note.id.toString(), note.noteTitle, note.noteDescription))
+        dataBaseReference.child(note.noteTitle).push().also {
+           it.key
+            it.setValue(Note(note.noteTitle, note.noteDescription, note.id))
         }
 
 
@@ -86,8 +92,4 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
 
 }
-
-
-
-
 

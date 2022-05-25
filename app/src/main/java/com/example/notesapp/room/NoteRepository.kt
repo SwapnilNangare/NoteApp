@@ -2,7 +2,7 @@ package com.example.notesapp.room
 
 import androidx.lifecycle.LiveData
 
-//manage multiple source of data
+// manage multiple source of data
 class NoteRepository(private val notesDao: NotesDao) {
 
     val allNotes: LiveData<List<Note>> = notesDao.getAllNotes()
@@ -18,6 +18,7 @@ class NoteRepository(private val notesDao: NotesDao) {
     suspend fun update(note: Note) {
         notesDao.update(note)
     }
+
 
 
 

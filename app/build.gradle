@@ -50,11 +50,13 @@ dependencies {
     //firebase
     implementation 'com.google.firebase:firebase-database:20.0.4'
     implementation 'androidx.databinding:databinding-runtime:7.1.1'
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
 
 
     //RoomDataBase
 
     def room_version = "2.4.2"
+
     //new
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
@@ -89,4 +91,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestImplementation "androidx.test.ext:junit:$rootProject.androidxJunitVersion"
+
+    // WorkManager dependency
+    implementation "androidx.work:work-runtime-ktx:$versions_work"
 }

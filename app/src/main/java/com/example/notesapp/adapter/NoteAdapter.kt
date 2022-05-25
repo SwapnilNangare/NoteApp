@@ -10,7 +10,7 @@ import com.example.notesapp.room.Note
 import com.example.notesapp.ui.Listener
 
 class NoteAdapter(val listener: Listener, val activity: AppCompatActivity
-) : RecyclerView.Adapter<NoteAdapter.ViewHolder>(),androidx.appcompat.view.ActionMode.Callback {
+) : RecyclerView.Adapter<NoteAdapter.ViewHolder>(),ActionMode.Callback {
 
     private var allNotes = ArrayList<Note>()
     private var multiSelect: Boolean = false
@@ -18,7 +18,7 @@ class NoteAdapter(val listener: Listener, val activity: AppCompatActivity
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById<TextView>(R.id.idTvNotesTitle)
+        val title: TextView = itemView.findViewById(R.id.idTvNotesTitle)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -99,7 +99,8 @@ class NoteAdapter(val listener: Listener, val activity: AppCompatActivity
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
         val inflater : MenuInflater = mode?.menuInflater!!
         inflater.inflate(R.menu.action_menu,menu)
-        return true    }
+        return true
+    }
 
     override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
         return false
@@ -118,6 +119,8 @@ class NoteAdapter(val listener: Listener, val activity: AppCompatActivity
         allNotes.clear()
         notifyDataSetChanged()
     }
+
+    
 }
 
 

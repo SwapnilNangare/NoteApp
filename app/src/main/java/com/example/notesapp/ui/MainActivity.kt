@@ -11,12 +11,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.example.notesapp.NoteAdapter
 import com.example.notesapp.R
 import com.example.notesapp.room.Note
 import com.example.notesapp.viewModel.NoteViewModel
+import com.example.notesapp.workManager.worker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.FirebaseDatabase
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), Listener {
 
@@ -32,6 +38,8 @@ class MainActivity : AppCompatActivity(), Listener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // work Manger Function call
+        setPeriodicWorkRequest()
 
         recyclerview = findViewById(R.id.recyclerview)
         addButton = findViewById(R.id.idFABAddNote)
@@ -71,6 +79,22 @@ class MainActivity : AppCompatActivity(), Listener {
 
     }
 
+    //work manager
+
+    private fun setPeriodicWorkRequest() {
+
+        val constraints= Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val workRequest= PeriodicWorkRequest.Builder(worker::class.java,10,TimeUnit.SECONDS)
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(applicationContext)
+            .enqueue(workRequest)
+
+
+    }
     fun filter(s: String) {
         val all = ArrayList<Note>()
         viewModel.allNotes.observe(this) {
